@@ -1,10 +1,8 @@
-import logo from 'assets/logo.png'
-
 function App() {
   return (
-    <>
-      <image scale={logo} />
-    </>
+    <h1 className="text-3xl font-bold underline">
+      Crunchloop app
+    </h1>
   )
 }
 
