@@ -19,6 +19,10 @@ export function useGetTodoListItems(todoListId: number) {
   };
 
   useEffect(() => {
+    if (!todoListId) {
+      return;
+    }
+
     fetchTodoListsItems();
   }, [todoListId]);
 

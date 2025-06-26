@@ -4,3 +4,8 @@ export interface TodoListItemDto {
   description: string;
   completed: boolean;
 }
+
+export interface CreateTodoListItemDto {
+  title: string;
+  description: string;
+}
