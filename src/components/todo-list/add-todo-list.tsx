@@ -41,7 +41,7 @@ export function AddTodoList() {
           <Label htmlFor='name'>Name</Label>
           <Input id='name' type='text' name='name' />
           {errors.name && <FormError error={errors.name} />}
-          <DialogFooter>
+          <DialogFooter className='mt-4'>
             <DialogClose asChild>
               <Button variant='outline'>Cancel</Button>
             </DialogClose>
