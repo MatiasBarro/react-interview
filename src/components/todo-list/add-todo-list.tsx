@@ -12,12 +12,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { FormError } from '@/components/form-error';
-import { TodoList } from '@/api/todo-lists/dtos';
+import { TodoListDto } from '@/api/todo-lists/dtos';
 import { useAddTodoLists } from '@/hooks/useAddTodoLists';
 import { Loader2Icon } from 'lucide-react';
 
 interface AddTodoListProps {
-  onSuccess: (todoList: TodoList) => void;
+  onSuccess: (todoList: TodoListDto) => void;
 }
 
 export function AddTodoList({ onSuccess }: AddTodoListProps) {
