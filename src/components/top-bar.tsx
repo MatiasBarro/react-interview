@@ -2,8 +2,10 @@ import logo from '@/assets/logo.png';
 
 export function TopBar() {
   return (
-    <div className='container mx-auto border-b border-border py-4'>
-      <img src={logo} alt='logo' className='h-8 w-auto' />
+    <div className='border-b border-border'>
+      <div className='container mx-auto py-4'>
+        <img src={logo} alt='logo' className='h-8 w-auto' />
+      </div>
     </div>
   );
 }
