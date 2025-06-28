@@ -11,12 +11,12 @@ function App() {
   return (
     <>
       <TopBar />
-      <div className='container mx-auto mt-8'>
-        <TodoListsContext.Provider value={{ selectedTodoList, setSelectedTodoList }}>
+      <TodoListsContext.Provider value={{ selectedTodoList, setSelectedTodoList }}>
+        <div className='container mx-auto flex flex-col mt-8 gap-10'>
           <TodoList />
           <TodoListItems />
-        </TodoListsContext.Provider>
-      </div>
+        </div>
+      </TodoListsContext.Provider>
     </>
   );
 }

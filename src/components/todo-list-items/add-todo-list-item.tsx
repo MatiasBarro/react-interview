@@ -69,7 +69,7 @@ export function AddTodoListItem({ onSuccess }: AddTodoListProps) {
       </DialogTrigger>
       <DialogContent className='sm:max-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>Add a Todo list</DialogTitle>
+          <DialogTitle>Add an item</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
           <Label htmlFor='title'>Title</Label>
