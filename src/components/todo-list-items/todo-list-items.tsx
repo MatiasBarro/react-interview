@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import { Loader2Icon } from 'lucide-react';
 import { TodoListsContext } from '@/contexts/todo-lists-context';
 import { AddTodoListItem } from '@/components/todo-list-items/add-todo-list-item';
@@ -60,15 +60,14 @@ export function TodoListItems() {
           <h2 className='text-xl text-muted-foreground '>No items in this list</h2>
         ) : (
           todoListsItems.map((item, idx) => (
-            <>
+            <Fragment key={item.id}>
               <TodoListItem
-                key={item.id}
                 item={item}
                 onCompletedChange={onCompletedChange}
                 onDelete={(item) => setItemToDelete(item)}
               />
               {idx !== todoListsItems.length - 1 && <Separator />}
-            </>
+            </Fragment>
           ))
         )}
       </div>
