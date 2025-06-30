@@ -2,12 +2,18 @@ import { Loader2Icon } from 'lucide-react';
 import { AddTodoList } from './add-todo-list';
 import { TodoListSelector } from './todo-list-selector';
 import { useGetTodoLists } from '@/hooks/useGetTodoLists';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { TodoListsContext } from '@/contexts/todo-lists-context';
 
 export function TodoList() {
   const { todoLists, isLoading, fetchTodoLists } = useGetTodoLists();
   const { selectedTodoList, setSelectedTodoList } = useContext(TodoListsContext);
+
+  useEffect(() => {
+    if (!selectedTodoList && todoLists.length > 0) {
+      setSelectedTodoList(todoLists[0]);
+    }
+  }, [todoLists, selectedTodoList, setSelectedTodoList]);
 
   return (
     <div className='flex flex-col'>

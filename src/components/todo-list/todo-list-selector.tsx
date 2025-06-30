@@ -11,7 +11,7 @@ export function TodoListSelector({ options, selected, onChange }: TodoListSelect
   return (
     <Select
       disabled={options.length === 0}
-      defaultValue={selected?.id.toString()}
+      value={selected?.id.toString()}
       onValueChange={(value) => {
         const selectedTodoList = options.find((option) => option.id === Number(value));
 
