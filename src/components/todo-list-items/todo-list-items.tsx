@@ -5,10 +5,24 @@ import { TodoListsContext } from '@/contexts/todo-lists-context';
 import { AddTodoListItem } from '@/components/todo-list-items/add-todo-list-item';
 import { TodoListItem } from '@/components/todo-list-items/todo-list-item';
 import { Separator } from '@/components/ui/separator';
+import { useUpdateTodoListItem } from '@/hooks/useUpdateTodoListItem';
+import { TodoListItemDto } from '@/api/todo-lists-items/dtos';
 
 export function TodoListItems() {
   const { selectedTodoList } = useContext(TodoListsContext);
   const { isLoading, todoListsItems, fetchTodoListsItems } = useGetTodoListItems(selectedTodoList?.id ?? 0);
+  const { isLoading: isUpdating, updateTodoListItem } = useUpdateTodoListItem(selectedTodoList?.id ?? 0);
+
+  const onCompletedChange = async ({ id, ...itemData }: TodoListItemDto) => {
+    if (isUpdating) {
+      return;
+    }
+
+    // update item
+    await updateTodoListItem(id, itemData);
+    // refetch items
+    await fetchTodoListsItems();
+  };
 
   if (!selectedTodoList) {
     return (
@@ -32,12 +46,16 @@ export function TodoListItems() {
         <h1 className='text-3xl font-bold'>Items</h1>
         <AddTodoListItem onSuccess={fetchTodoListsItems} />
       </div>
-      {todoListsItems.map((item, idx) => (
-        <>
-          <TodoListItem key={item.id} item={item} />
-          {idx !== todoListsItems.length - 1 && <Separator />}
-        </>
-      ))}
+      {todoListsItems.length === 0 ? (
+        <h2 className='text-xl text-muted-foreground '>No items in this list</h2>
+      ) : (
+        todoListsItems.map((item, idx) => (
+          <>
+            <TodoListItem key={item.id} item={item} onCompletedChange={onCompletedChange} />
+            {idx !== todoListsItems.length - 1 && <Separator />}
+          </>
+        ))
+      )}
     </div>
   );
 }

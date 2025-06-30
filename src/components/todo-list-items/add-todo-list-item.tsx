@@ -50,6 +50,7 @@ export function AddTodoListItem({ onSuccess }: AddTodoListProps) {
     const newTodoListItem = await addTodoListItem({
       title: formData.get('title') as string,
       description: formData.get('description') as string,
+      completed: false,
     });
 
     if (!newTodoListItem) {
