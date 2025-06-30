@@ -17,3 +17,7 @@ export async function updateTodoListsItem(todoListId: number, itemId: number, da
 
   return response.data;
 }
+
+export async function deleteTodoListsItem(todoListId: number, itemId: number) {
+  return instance.delete(`/todolists/${todoListId}/items/${itemId}`);
+}
