@@ -13,3 +13,9 @@ export interface CreateTodoListItemDto {
 }
 
 export type UpdateTodoListItemDto = Partial<CreateTodoListItemDto>;
+
+export interface BulkDeleteTodoListItemsTaskDto {
+  id: string;
+  todoListId: number;
+  status: 'pending' | 'in-progress' | 'success' | 'failed';
+}
