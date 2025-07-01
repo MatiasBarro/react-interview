@@ -44,15 +44,11 @@ export function AddTodoListItem() {
       return;
     }
 
-    const newTodoListItem = await addTodoListItem({
+    await addTodoListItem({
       title: formData.get('title') as string,
       description: formData.get('description') as string,
       completed: false,
     });
-
-    if (!newTodoListItem) {
-      return;
-    }
 
     fetchTodoListItems();
     setIsOpen(false);
