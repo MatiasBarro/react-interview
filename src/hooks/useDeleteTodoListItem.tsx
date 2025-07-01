@@ -1,19 +1,10 @@
-import { useState } from 'react';
 import { deleteTodoListsItem } from '@/api/todo-lists-items/api';
+import { useMutation } from './useMutation';
 
 export function useDeleteTodoListItem(todoListId: number) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const deleteTodoListItem = async (itemId: number) => {
-    try {
-      setIsLoading(true);
-      await deleteTodoListsItem(todoListId, itemId);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { isLoading, mutationRequest: deleteTodoListItem } = useMutation((itemId: number) =>
+    deleteTodoListsItem(todoListId, itemId),
+  );
 
   return {
     isLoading,

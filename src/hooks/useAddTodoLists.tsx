@@ -1,21 +1,8 @@
 import { createTodoList } from '@/api/todo-lists/api';
-import { CreateTodoListDto } from '@/api/todo-lists/dtos';
-import { useState } from 'react';
+import { useMutation } from './useMutation';
 
 export function useAddTodoLists() {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const addTodoList = async (data: CreateTodoListDto) => {
-    try {
-      setIsLoading(true);
-      const todoList = await createTodoList(data);
-      return todoList;
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { isLoading, mutationRequest: addTodoList } = useMutation(createTodoList);
 
   return {
     isLoading,

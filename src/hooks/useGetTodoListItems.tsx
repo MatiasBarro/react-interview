@@ -1,22 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { getTodoListsItems } from '@/api/todo-lists-items/api';
-import { TodoListItemDto } from '@/api/todo-lists-items/dtos';
+import { useQuery } from './useQuery';
 
 export function useGetTodoListItems(todoListId: number) {
-  const [todoListItems, setTodoListItems] = useState<TodoListItemDto[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const fetchTodoListItems = async () => {
-    try {
-      setIsLoading(true);
-      const items = await getTodoListsItems(todoListId);
-      setTodoListItems(items);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const {
+    isLoading,
+    data: todoListItems,
+    performQuery: fetchTodoListItems,
+  } = useQuery(() => getTodoListsItems(todoListId), []);
 
   useEffect(() => {
     if (!todoListId) {
