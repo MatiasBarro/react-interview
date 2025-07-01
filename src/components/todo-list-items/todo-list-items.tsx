@@ -1,37 +1,14 @@
-import { Fragment, useContext, useState } from 'react';
+import { useContext } from 'react';
 import { Loader2Icon } from 'lucide-react';
 import { TodoListsContext } from '@/contexts/todo-lists-context';
 import { AddTodoListItem } from '@/components/todo-list-items/add-todo-list-item';
-import { TodoListItem } from '@/components/todo-list-items/todo-list-item';
-import { Separator } from '@/components/ui/separator';
-import { TodoListItemDto } from '@/api/todo-lists-items/dtos';
 import { useGetTodoListItems } from '@/hooks/useGetTodoListItems';
-import { useUpdateTodoListItem } from '@/hooks/useUpdateTodoListItem';
-import { DeleteTodoListItemModal } from './delete-todo-list-item-modal';
+import { TodoListItemList } from './todo-list-item-list';
+import { TodoListsItemsContext } from '@/contexts/todo-list-items-context';
 
 export function TodoListItems() {
   const { selectedTodoList } = useContext(TodoListsContext);
-  const { isLoading, todoListsItems, fetchTodoListsItems } = useGetTodoListItems(selectedTodoList?.id ?? 0);
-  const { isLoading: isUpdating, updateTodoListItem } = useUpdateTodoListItem(selectedTodoList?.id ?? 0);
-  const [itemToDelete, setItemToDelete] = useState<TodoListItemDto | null>(null);
-
-  const onCompletedChange = async ({ id, ...itemData }: TodoListItemDto) => {
-    if (isUpdating) {
-      return;
-    }
-
-    // update item
-    await updateTodoListItem(id, itemData);
-    // refetch items
-    await fetchTodoListsItems();
-  };
-
-  const onDeleteSuccess = async () => {
-    // remove item from list
-    setItemToDelete(null);
-    // refetch items
-    await fetchTodoListsItems();
-  };
+  const { isLoading, todoListItems, fetchTodoListItems } = useGetTodoListItems(selectedTodoList?.id ?? 0);
 
   if (!selectedTodoList) {
     return (
@@ -50,35 +27,14 @@ export function TodoListItems() {
   }
 
   return (
-    <>
+    <TodoListsItemsContext.Provider value={{ todoListItems, fetchTodoListItems }}>
       <div className='flex flex-col gap-4 max-w-xl'>
         <div className='flex flex-row justify-between items-center'>
           <h1 className='text-3xl font-bold'>Items</h1>
-          <AddTodoListItem onSuccess={fetchTodoListsItems} />
+          <AddTodoListItem />
         </div>
-        {todoListsItems.length === 0 ? (
-          <h2 className='text-xl text-muted-foreground '>No items in this list</h2>
-        ) : (
-          todoListsItems.map((item, idx) => (
-            <Fragment key={item.id}>
-              <TodoListItem
-                item={item}
-                onCompletedChange={onCompletedChange}
-                onDelete={(item) => setItemToDelete(item)}
-              />
-              {idx !== todoListsItems.length - 1 && <Separator />}
-            </Fragment>
-          ))
-        )}
+        <TodoListItemList />
       </div>
-      {itemToDelete && (
-        <DeleteTodoListItemModal
-          isOpen={!!itemToDelete}
-          item={itemToDelete}
-          onOpenChange={() => setItemToDelete(null)}
-          onDeleteSuccess={onDeleteSuccess}
-        />
-      )}
-    </>
+    </TodoListsItemsContext.Provider>
   );
 }

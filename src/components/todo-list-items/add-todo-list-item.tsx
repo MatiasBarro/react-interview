@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { Loader2Icon } from 'lucide-react';
 import {
   Dialog,
   DialogClose,
@@ -12,21 +13,17 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { FormError } from '@/components/form-error';
-import { Loader2Icon } from 'lucide-react';
-import { TodoListItemDto } from '@/api/todo-lists-items/dtos';
 import { useAddTodoListItem } from '@/hooks/useAddTodoListItem';
 import { TodoListsContext } from '@/contexts/todo-lists-context';
+import { TodoListsItemsContext } from '@/contexts/todo-list-items-context';
 
-interface AddTodoListProps {
-  onSuccess: (todoList: TodoListItemDto) => void;
-}
+export function AddTodoListItem() {
+  const { selectedTodoList } = useContext(TodoListsContext);
+  const { fetchTodoListItems } = useContext(TodoListsItemsContext);
+  const { addTodoListItem, isLoading } = useAddTodoListItem(selectedTodoList?.id ?? 0);
 
-export function AddTodoListItem({ onSuccess }: AddTodoListProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-
-  const { selectedTodoList } = useContext(TodoListsContext);
-  const { addTodoListItem, isLoading } = useAddTodoListItem(selectedTodoList.id);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,7 +54,7 @@ export function AddTodoListItem({ onSuccess }: AddTodoListProps) {
       return;
     }
 
-    onSuccess(newTodoListItem);
+    fetchTodoListItems();
     setIsOpen(false);
   };
 

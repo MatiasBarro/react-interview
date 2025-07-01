@@ -3,14 +3,14 @@ import { getTodoListsItems } from '@/api/todo-lists-items/api';
 import { TodoListItemDto } from '@/api/todo-lists-items/dtos';
 
 export function useGetTodoListItems(todoListId: number) {
-  const [todoListsItems, setTodoListsItems] = useState<TodoListItemDto[]>([]);
+  const [todoListItems, setTodoListItems] = useState<TodoListItemDto[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchTodoListsItems = async () => {
+  const fetchTodoListItems = async () => {
     try {
       setIsLoading(true);
-      const todoListsItems = await getTodoListsItems(todoListId);
-      setTodoListsItems(todoListsItems);
+      const items = await getTodoListsItems(todoListId);
+      setTodoListItems(items);
     } catch (error) {
       console.error(error);
     } finally {
@@ -23,12 +23,12 @@ export function useGetTodoListItems(todoListId: number) {
       return;
     }
 
-    fetchTodoListsItems();
+    fetchTodoListItems();
   }, [todoListId]);
 
   return {
-    todoListsItems,
+    todoListItems,
     isLoading,
-    fetchTodoListsItems,
+    fetchTodoListItems,
   };
 }
